@@ -6,11 +6,23 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
+    'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    '.lintstagedrc.cjs',
+    'commitlint.config.cjs',
+    'jest.config.js',
+    'vite.config.js',
+    'vitest.setup.js',
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
   settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh'],
+  plugins: ['react-refresh', 'prettier'],
   rules: {
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [
@@ -18,4 +30,4 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
-}
+};
