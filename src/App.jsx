@@ -1,25 +1,75 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { decrease, increase } from "./utils";
-import "./App.css";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Draggable from 'react-draggable';
+
+const Container = styled.div`
+  height: 100vh;
+  background: #f0f0f0;
+  overflow: hidden;
+  position: relative;
+`;
+
+const StyledNote = styled.div`
+  background: #ffeb3b;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  margin: 10px;
+  overflow: hidden;
+  position: absolute;
+`;
+
+const NoteTitle = styled.input`
+  width: calc(100% - 20px);
+  border: none;
+  padding: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+`;
+
+const NoteContent = styled.textarea`
+  width: calc(100% - 20px);
+  height: 140px;
+  border: none;
+  padding: 5px;
+  font-size: 12px;
+  resize: none;
+`;
+
+const Note = ({ note, onDelete }) => (
+  <Draggable>
+    <StyledNote>
+      <NoteTitle placeholder="Untitled" defaultValue={note.title} />
+      <NoteContent defaultValue={note.content} />
+      <button onClick={() => onDelete(note.id)}>Delete</button>
+    </StyledNote>
+  </Draggable>
+);
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [greet, setGreet] = useState("");
+  const [notes, setNotes] = useState([]);
 
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/greet").then((res) => {
-      setGreet(res.data?.message || "");
-    });
-  }, []);
+  const addNote = () => {
+    const newNote = {
+      id: Date.now(),
+      title: '',
+      content: '',
+    };
+    setNotes([...notes, newNote]);
+  };
+
+  const deleteNote = (id) => {
+    setNotes(notes.filter(note => note.id !== id));
+  };
 
   return (
-    <div className="card">
-      <div>{count}</div>
-      <button onClick={() => setCount((count) => increase(count))}>증가</button>
-      <button onClick={() => setCount((count) => decrease(count))}>감소</button>
-      {greet && <p data-testid="greet">{greet}</p>}
-    </div>
+    <Container>
+      <button onClick={addNote}>Add Note</button>
+      {notes.map(note => (
+        <Note key={note.id} note={note} onDelete={deleteNote} />
+      ))}
+    </Container>
   );
 }
 
