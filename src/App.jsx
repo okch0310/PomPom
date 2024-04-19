@@ -4,45 +4,57 @@ import Draggable from 'react-draggable';
 
 const Container = styled.div`
   height: 100vh;
-  background: #f0f0f0;
+  width:100vw;
   overflow: hidden;
   position: relative;
+  background-image: url('../public/cloudImg.jpg'); 
+  background-size: cover;
 `;
 
 const StyledNote = styled.div`
-  background: #ffeb3b;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-  width: 200px;
-  height: 200px;
-  padding: 10px;
-  margin: 10px;
-  overflow: hidden;
   position: absolute;
 `;
 
-const NoteTitle = styled.input`
-  width: calc(100% - 20px);
-  border: none;
+const NoteTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 180px;
+  height: 20px;
+  border: white 1px solid;
+  border-radius: 5px;
   padding: 5px;
   margin-bottom: 5px;
   font-size: 14px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.3);
+  color:black;
 `;
 
 const NoteContent = styled.textarea`
-  width: calc(100% - 20px);
+  width: 180px;
   height: 140px;
-  border: none;
   padding: 5px;
   font-size: 12px;
   resize: none;
+  border: white 1px solid;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.35);
+  outline: none;
+  color:black;
+`;
+
+const Button = styled.div`
+  cursor: pointer;
 `;
 
 const Note = ({ note, onDelete }) => (
   <Draggable>
     <StyledNote>
-      <NoteTitle placeholder="Untitled" defaultValue={note.title} />
+      <NoteTitle>
+        <div>MEMO</div> 
+      <Button onClick={() => onDelete(note.id)}>X</Button>
+      </NoteTitle>
       <NoteContent defaultValue={note.content} />
-      <button onClick={() => onDelete(note.id)}>Delete</button>
     </StyledNote>
   </Draggable>
 );
